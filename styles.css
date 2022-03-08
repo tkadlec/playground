@@ -1,0 +1,35 @@
+body {
+    font: 100%/1.4em "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #404040;
+}
+h1 {
+    font-size: 2.5em;
+    border-bottom: 1px dotted #404040;
+    line-height: 1.4em;
+}
+a {
+    color: #404040;
+    text-decoration: none;
+    display: block;
+    padding: .5em;
+}
+a:hover{
+    background: #eee;
+}
+#wrap {
+    max-width: 40em;
+    margin: auto;
+}
+dl {
+    margin-top: 3em;
+}
+dt{
+    font-size: 2em;
+}
+dd{
+    margin: 0.5em 0 0em 0;
+    color: #666;
+}
+dl a{
+    margin-bottom: 1.5em;
+}
