@@ -1,0 +1,17 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wasted Preloads</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="preload" href="https://slowfil.es/file?type=css&delay=100&status=200&max-age=0" as="style">
+    <link rel="preload" href="https://slowfil.es/file?type=js&delay=100&status=200&max-age=0" as="style">
+    <script src="https://slowfil.es/file?type=js&delay=200
+    "></script>
+</head>
+<body>
+    <h1>Wasted preloads</h1>
+    <p>Let's make a preload somewhere and not use it to see what happens in WebPageTest. We'll also make a mistmached preload (a script as a style).</p>
+</body>
+</html>
