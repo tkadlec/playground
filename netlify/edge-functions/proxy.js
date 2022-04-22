@@ -302,7 +302,7 @@ function cookieVal(source, name) {
           response = new Response(cssmin(mincss), response);
         }
       }
-      return response
+      return newResponse
     }
   
     // javascript tbd
