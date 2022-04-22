@@ -1,14 +1,17 @@
 import { Context } from "netlify:edge";
 
-export default async(request: Request, context: Context) => {
-    const url = new URL(request.url);
+export default async (request: Request, context: Context) => {
+  const url = new URL(request.url);
 
-    //Look for the query parameter and return if we don't find it
-    if (url.searchParams.get("method") !== "proxy") {
-        return;
-    }
+  // Look for the query parameter, and return if we don't find it
+  if (url.searchParams.get("method") !== "transform") {
+    return;
+  }
 
-    const response = await context.next();
-    const text = response.text();
-    return new Response(text.toUpperCase(), response);
-}
+  context.log(`Transforming the response from this ${url}`);
+
+  const response = await context.next();
+
+  const text = await response.text();
+  return new Response(text.toUpperCase(), response);
+};
