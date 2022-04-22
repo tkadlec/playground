@@ -9,9 +9,9 @@ function cookieVal(source, name) {
 }
   
   
-addEventListener('fetch', event => {
-    event.respondWith(handleRequest(event.request))
-});
+// addEventListener('fetch', event => {
+//     event.respondWith(handleRequest(event.request))
+// });
 // general swap recipe
 // expected syntax is:
 // expects swap:=pattern|replacement|useRegexp|flags
