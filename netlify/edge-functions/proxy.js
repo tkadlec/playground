@@ -1,6 +1,6 @@
 import { Context } from "netlify:edge";
 
-export default async (request: Request, context: Context) => {
+export default async(request, context) => {
   const url = new URL(request.url);
 
   // Look for the query parameter, and return if we don't find it
