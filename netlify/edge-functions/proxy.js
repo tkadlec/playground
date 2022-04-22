@@ -1,4 +1,7 @@
-import { Context } from "netlify:edge";
+import { 
+    HTMLRewriter 
+  } from 'https://ghuc.cc/worker-tools/html-rewriter/index.ts'
+
 
 function cookieVal(source, name) {
     const value = `; ${source}`;
@@ -54,10 +57,29 @@ function swapRecipe( recipeIngredients, response, responseText ){
     } );
     return response;
   }
+
+  class DeferJS {
+    constructor(ingredients) {
+      this.ingredients = ingredients;
+    }
+    element(element) {
+      if (!element.hasAttribute('defer') && !element.hasAttribute('async') && element.getAttribute("type") !== "module") {
+        if (this.ingredients) {
+          let elAttr = element.getAttribute('src');
+          this.ingredients.forEach( ingredient => {
+            if( elAttr.indexOf( ingredient ) > -1 ){
+              element.setAttribute('defer', 'true');
+            }
+          } );
+        } else {
+          element.setAttribute('defer', 'true');
+        }
+      }
+    }
+  }
 export default async(request, context) => {
   const url = new URL(request.url);
     // Disallow crawlers
-
     if (url.pathname === "/robots.txt") {
         return new Response('User-agent: *\nDisallow: /', { status: 200 });
     }
@@ -91,6 +113,16 @@ export default async(request, context) => {
             // general swap recipe!
       if (recipeType === 'swap' && recipeIngredients.length) {
         response = swapRecipe( recipeIngredients, response, responseText );
+      }
+
+            // deferjs recipe!
+      // this one finds script elements with a src that are not modules and adds a defer attribute to them
+      // expects deferjs:=site.js,site2.js
+
+      if (recipeType === 'deferjs') {
+        response = new HTMLRewriter()
+          .on('script[src]', new DeferJS(recipeIngredients))
+          .transform(response)
       }
         }
 
