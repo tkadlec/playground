@@ -316,8 +316,7 @@ function cookieVal(source, name) {
   
   
     // Otherwise just proxy the request
-    let response = await fetch(url.toString(), request);
-    return response;
+    return new Response(await fetch(url.toString(), request));
   }
   
   
