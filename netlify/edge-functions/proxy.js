@@ -275,9 +275,33 @@ function cookieVal(source, name) {
       let response = await fetch(url.toString(), request)
       let responseText = await response.text();
       let newResponse = new Response(responseText, response);
-      newResponse.headers.delete("content-security-policy");
-      response = newResponse;
-
+    //   newResponse.headers.delete("content-security-policy");
+    //   response = newResponse;
+  
+    //   // for each named recipe, run a transform
+    //   for( var i = 0; i < recipeList.length; i++ ){
+    //     let recipe = recipeList[i];
+    //     let recipeType = recipe.split(":=")[0];
+    //     let recipeIngredients = recipe.split(":=")[1] ? recipe.split(":=")[1].split(',') : false;
+  
+    //     // general swap recipe!
+    //     if (recipeType === 'swap' && recipeIngredients.length) {
+    //       response = swapRecipe( recipeIngredients, response, responseText );
+    //     }
+  
+    //     // this recipe covers exteral css with font-family declarations, when css is first-party
+    //     if (recipeType === 'fontdisplayswap') {
+    //       response = swapRecipe( ["@font-face {|@font-face {font-display:swap;"], response, responseText );
+    //     }
+  
+    //     // this one minifies css.
+    //     // expects minifycss
+    //     if (recipeType === 'minifycss') {
+    //       // const fullPath = url.protocol + '//' + url.host + url.pathname;
+    //       let mincss = await response.text();
+    //       response = new Response(cssmin(mincss), response);
+    //     }
+    //   }
       return newResponse
     }
   
