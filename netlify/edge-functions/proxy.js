@@ -320,7 +320,8 @@ export default async function(request) {
     // Otherwise just proxy the request
     let response = await fetch(url.toString(), request);
     let responseText = await response.text();
-    return new Response(responseText, response);
+    let newResponse = new Response(responseText, response);
+    return newResponse;
   }
   
   
