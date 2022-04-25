@@ -28,7 +28,8 @@ function cookieVal(source, name) {
   });
   
   async function handleRequest(request) {
-  
+    console.log("REQUEST");
+    console.info(request);
     const url = new URL(request.url);
   
     // Disallow crawlers
