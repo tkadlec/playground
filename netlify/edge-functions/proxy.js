@@ -270,11 +270,11 @@ function cookieVal(source, name) {
       return response
     }
     // CSS recipes!
-    else if (acceptHeader && acceptHeader.indexOf('text/css') >= 0) {
+    // else if (acceptHeader && acceptHeader.indexOf('text/css') >= 0) {
   
-      let response = await fetch(url.toString(), request)
-      let responseText = await response.text();
-      let newResponse = new Response(responseText, response);
+    //   let response = await fetch(url.toString(), request)
+    //   let responseText = await response.text();
+    //   let newResponse = new Response(responseText, response);
     //   newResponse.headers.delete("content-security-policy");
     //   response = newResponse;
   
@@ -302,8 +302,8 @@ function cookieVal(source, name) {
     //       response = new Response(cssmin(mincss), response);
     //     }
     //   }
-      return newResponse
-    }
+    //   return newResponse
+    // }
   
     // javascript tbd
     // else if (acceptHeader && acceptHeader.indexOf('application/javascript') >= 0) {
