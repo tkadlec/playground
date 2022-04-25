@@ -43,6 +43,8 @@ export default async function(request) {
     // When overrideHost is used in a script, WPT sets x-host to original host i.e. site we want to proxy
   
     const host = request.headers.get('x-host');
+    console.log(host);
+    console.log(url);
     let recipes = request.headers.get('x-recipes');
     console.log(JSON.stringify(request.headers));
     if( !recipes || recipes.length === 0 ){
