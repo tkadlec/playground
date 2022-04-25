@@ -1,7 +1,3 @@
-import { 
-    HTMLRewriter 
-  } from 'https://ghuc.cc/worker-tools/html-rewriter/index.ts'
-
 /* Worker Recipes! */
 
 /* Started from Pat's example in https://www.slideshare.net/patrickmeenan/getting-the-most-out-of-webpagetest */
@@ -23,14 +19,12 @@ function cookieVal(source, name) {
     }
   }
   
-// export default async (request, context) {
-//     addEventListener('fetch', event => {
-//         event.respondWith(handleRequest(event.request))
-//       });
-// }
-
   
-export default async function(request) {
+  addEventListener('fetch', event => {
+    event.respondWith(handleRequest(event.request))
+  });
+  
+  async function handleRequest(request) {
   
     const url = new URL(request.url);
   
@@ -43,8 +37,6 @@ export default async function(request) {
     // When overrideHost is used in a script, WPT sets x-host to original host i.e. site we want to proxy
   
     const host = request.headers.get('x-host');
-    console.log(host);
-    console.log(url);
     let recipes = request.headers.get('x-recipes');
     console.log(JSON.stringify(request.headers));
     if( !recipes || recipes.length === 0 ){
@@ -274,40 +266,40 @@ export default async function(request) {
       return response
     }
     // CSS recipes!
-    // else if (acceptHeader && acceptHeader.indexOf('text/css') >= 0) {
+    else if (acceptHeader && acceptHeader.indexOf('text/css') >= 0) {
   
-    //   let response = await fetch(url.toString(), request)
-    //   let responseText = await response.text();
-    //   let newResponse = new Response(responseText, response);
-    //   newResponse.headers.delete("content-security-policy");
-    //   response = newResponse;
+      let response = await fetch(url.toString(), request)
+      let responseText = await response.text();
+      let newResponse = new Response(responseText, response);
+      newResponse.headers.delete("content-security-policy");
+      response = newResponse;
   
-    //   // for each named recipe, run a transform
-    //   for( var i = 0; i < recipeList.length; i++ ){
-    //     let recipe = recipeList[i];
-    //     let recipeType = recipe.split(":=")[0];
-    //     let recipeIngredients = recipe.split(":=")[1] ? recipe.split(":=")[1].split(',') : false;
+      // for each named recipe, run a transform
+      for( var i = 0; i < recipeList.length; i++ ){
+        let recipe = recipeList[i];
+        let recipeType = recipe.split(":=")[0];
+        let recipeIngredients = recipe.split(":=")[1] ? recipe.split(":=")[1].split(',') : false;
   
-    //     // general swap recipe!
-    //     if (recipeType === 'swap' && recipeIngredients.length) {
-    //       response = swapRecipe( recipeIngredients, response, responseText );
-    //     }
+        // general swap recipe!
+        if (recipeType === 'swap' && recipeIngredients.length) {
+          response = swapRecipe( recipeIngredients, response, responseText );
+        }
   
-    //     // this recipe covers exteral css with font-family declarations, when css is first-party
-    //     if (recipeType === 'fontdisplayswap') {
-    //       response = swapRecipe( ["@font-face {|@font-face {font-display:swap;"], response, responseText );
-    //     }
+        // this recipe covers exteral css with font-family declarations, when css is first-party
+        if (recipeType === 'fontdisplayswap') {
+          response = swapRecipe( ["@font-face {|@font-face {font-display:swap;"], response, responseText );
+        }
   
-    //     // this one minifies css.
-    //     // expects minifycss
-    //     if (recipeType === 'minifycss') {
-    //       // const fullPath = url.protocol + '//' + url.host + url.pathname;
-    //       let mincss = await response.text();
-    //       response = new Response(cssmin(mincss), response);
-    //     }
-    //   }
-    //   return newResponse
-    // }
+        // this one minifies css.
+        // expects minifycss
+        if (recipeType === 'minifycss') {
+          // const fullPath = url.protocol + '//' + url.host + url.pathname;
+          let mincss = await response.text();
+          response = new Response(cssmin(mincss), response);
+        }
+      }
+      return response
+    }
   
     // javascript tbd
     // else if (acceptHeader && acceptHeader.indexOf('application/javascript') >= 0) {
@@ -320,10 +312,8 @@ export default async function(request) {
   
   
     // Otherwise just proxy the request
-    let response = await fetch(url.toString(), request);
-    let responseText = await response.text();
-    let newResponse = new Response(responseText, response);
-    return newResponse;
+  
+    return fetch(url.toString(), request)
   }
   
   
