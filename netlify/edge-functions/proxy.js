@@ -1,3 +1,7 @@
+import { 
+    HTMLRewriter 
+  } from 'https://ghuc.cc/worker-tools/html-rewriter/index.ts'
+}
 /* Worker Recipes! */
 
 /* Started from Pat's example in https://www.slideshare.net/patrickmeenan/getting-the-most-out-of-webpagetest */
