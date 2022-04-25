@@ -23,12 +23,14 @@ function cookieVal(source, name) {
     }
   }
   
+// export default async (request, context) {
+//     addEventListener('fetch', event => {
+//         event.respondWith(handleRequest(event.request))
+//       });
+// }
+
   
-  addEventListener('fetch', event => {
-    event.respondWith(handleRequest(event.request))
-  });
-  
-  async function handleRequest(request) {
+export default async function(request) {
   
     const url = new URL(request.url);
   
