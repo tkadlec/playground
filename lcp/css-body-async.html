@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LCP Test: Desync Decoded Image</title>
-    <link rel="stylesheet" href="../styles.css">
+    <title>LCP Test: Slow CSS in Body, after the image but with async on image</title>
+    <style>body { font-family: sans-serif; }</style>
 </head>
 <body>
-    <h1>LCP Test: Desync Decoded Image</h1>
+    <h1>LCP Test: Slow CSS in Body, after the image but with async on image</h1>
     <img 
-        src="https://www.placecats.com/1000/700"
-        decoding="desync"
+        src="https://www.placecats.com/1000/700" 
+        loading="async"
         alt="A large cat image."
         width="500"
         height="350"
         style="max-width: 100%; height: auto; display: block; margin: 20px auto;"
     >
-    <p>The LCP is the async decoded image.</p>
-    <div id="lcp-output">
-    </div>
+    <link rel="stylesheet" href="https://slowfil.es/file?type=css&delay=3000">
+
+    <p>The LCP is the image, with a slow CSS link in the body but with async on the image.</p>
+    <div id="lcp-output"></div>
     <script>
         // Function to handle the LCP entries
         function handleLCP(lcpList) {
