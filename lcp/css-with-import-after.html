@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCP Test 1: Slow CSS in Body with Import, after the image</title>
+    <style>body { font-family: sans-serif; }</style>
+</head>
+<body>
+    <h1>LCP Test: Slow CSS in Body with Import, after the image</h1>
+
+    <img 
+        src="https://www.placecats.com/1000/700" 
+        alt="A large cat image."
+        width="500"
+        height="350"
+        style="max-width: 100%; height: auto; display: block; margin: 20px auto;"
+    >
+    <p>The LCP is the image, with a slow CSS link in the body with import after the image.</p>
+    <link rel="stylesheet" href="https://slowfil.es/file?type=css&delay=3000&payload=imports">
+
+    <div id="lcp-output">Waiting for LCP measurement...</div>
+    <script>
+        // Function to handle the LCP entries
+        function handleLCP(lcpList) {
+            const lcpEntry = lcpList.getEntries().pop();
+            const outputDiv = document.getElementById('lcp-output');
+        
+            if (lcpEntry && outputDiv) {
+                // Calculate the LCP value (using renderTime or loadTime)
+                const lcpValue = lcpEntry.renderTime || lcpEntry.loadTime;
+                const lcpTime = Math.round(lcpValue);
+                
+                // Get the element info
+                const elementTag = lcpEntry.element ? lcpEntry.element.tagName : 'N/A';
+                const elementSelector = getElementSelector(lcpEntry.element);
+        
+                // Construct the output HTML
+                outputDiv.innerHTML = `
+                    <h3>✅ LCP Measurement Complete</h3>
+                    <p><strong>LCP Time:</strong> ${lcpTime}ms</p>
+                    <p><strong>Element Tag:</strong> ${elementTag}</p>
+                    <p><strong>Element Selector:</strong> <code>${elementSelector}</code></p>
+                `;
+        
+
+            } else if (outputDiv) {
+                outputDiv.innerHTML = '<h3>Error: Could not find LCP entry or output div.</h3>';
+            }
+        }
+        
+        // Helper function to generate a simple selector path (optional but helpful)
+        function getElementSelector(el) {
+            if (!el) return 'N/A';
+            let selector = el.tagName.toLowerCase();
+            if (el.id) {
+                selector += `#${el.id}`;
+            } else if (el.className) {
+                // Use the first class as a simple identifier
+                selector += `.${el.className.split(' ')[0]}`;
+            }
+            return selector;
+        }
+        
+        // Create and start the Performance Observer
+        const observer = new PerformanceObserver(handleLCP);
+        
+        // Start observing. { buffered: true } ensures you catch entries that occurred 
+        // before the observer was created.
+        observer.observe({ type: 'largest-contentful-paint', buffered: true });
+        </script>
+</body>
+</html>

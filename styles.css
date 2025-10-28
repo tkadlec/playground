@@ -1,6 +1,7 @@
 body {
     font: 100%/1.4em "Helvetica Neue",Helvetica,Arial,sans-serif;
     color: #404040;
+    padding: 1.5em;
 }
 h1 {
     font-size: 2.5em;
@@ -32,4 +33,10 @@ dd{
 }
 dl a{
     margin-bottom: 1.5em;
+}
+#lcp-info {
+    margin-top: 2em;
+    padding: 1em;
+    background: #f0f0f0;
+    border: 1px dotted #404040;
 }
